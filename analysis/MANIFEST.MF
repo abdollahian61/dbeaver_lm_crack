@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Created-By: Maven Archiver 3.6.6
+Java-Version: 17
+Build-Jdk-Spec: 25
+Bundle-ManifestVersion: 2
+Bundle-Vendor: DBeaver Corp
+Bundle-Name: DBeaver License Manager API
+Bundle-SymbolicName: com.dbeaver.lm.api
+Bundle-Version: 3.0.42.202609071306
+Bundle-Release-Date: 20231225
+Export-Package: com.dbeaver.lm.api,com.dbeaver.lm.api.validation
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.jkiss.utils;visibility:=reexport
+Automatic-Module-Name: com.dbeaver.lm.api
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=17))"
+
