@@ -1,0 +1,42 @@
+name: Decompile JAR
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  decompile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Download CFR
+        run: |
+          curl -fL https://www.benf.org/other/cfr/cfr-0.152.jar -o cfr.jar
+
+      - name: Decompile JAR
+        run: |
+          rm -rf src/main/java
+          mkdir -p src/main/java
+          java -jar cfr.jar com.dbeaver.lm.api_3.0.42.202609071306.jar \
+            --outputdir src/main/java \
+            --silent true
+          rm -f cfr.jar
+          find src/main/java -type f | sort
+
+      - name: Commit decompiled Java sources
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/main/java
+          git diff --cached --quiet && exit 0
+          git commit -m "Add CFR decompiled Java sources"
+          git push
